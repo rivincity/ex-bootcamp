@@ -7,6 +7,7 @@ const App: React.FC = () => {
   const [captcha, setCaptcha] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [captchaQuestion, setCaptchaQuestion] = useState('');
+  let counter = 0;
 
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -45,7 +46,7 @@ const App: React.FC = () => {
   };
 
   const hoverRef = (ref: React.RefObject<HTMLDivElement | HTMLButtonElement | HTMLInputElement>) => {
-    if (ref.current) {
+    if (ref.current && counter < 4) {
       ref.current.addEventListener("mouseover", () => {
         if (ref.current) { // Adding this check to ensure ref.current is not null inside the event listener
           const randomX = Math.floor(Math.random() * (window.innerWidth - ref.current.offsetWidth));
@@ -56,6 +57,7 @@ const App: React.FC = () => {
           ref.current.style.top = `${randomY}px`;
         }
       });
+      counter++;
     }
   };
 
@@ -108,6 +110,15 @@ const App: React.FC = () => {
               onChange={(e) => setCaptcha(e.target.value)}
               required
             />
+          </div>
+          <div>
+            <a
+                href="https://www.youtube.com/watch?v=oHg5SJYRHA0&list=PL8dZXjD8meS_WZzEKSReIBPLzKaW3HboH&index=2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Forgot Password?
+            </a>
           </div>
           <button type="submit" ref={buttonRef}>Enter</button>
         </form>
