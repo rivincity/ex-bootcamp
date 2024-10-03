@@ -7,19 +7,16 @@ const App: React.FC = () => {
   const [captcha, setCaptcha] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [captchaQuestion, setCaptchaQuestion] = useState('');
-  let counter = 0;
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const captchaRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Counter to track the number of times the button has moved
+  const buttonMoveCount = useRef<number>(0);
 
   useEffect(() => {
     generateNewCaptcha();
+    // Apply hover effect to the button
     hoverRef(buttonRef);
-    // hoverRef(nameRef);
-    // hoverRef(passwordRef);
-    // hoverRef(captchaRef);
   }, []);
 
   const handleUsernameClick = () => {
@@ -45,22 +42,22 @@ const App: React.FC = () => {
     setCaptchaQuestion(`What is ${randomNumber1} / ${randomNumber2}?`);
   };
 
-  const hoverRef = (ref: React.RefObject<HTMLDivElement | HTMLButtonElement | HTMLInputElement>) => {
-    if (ref.current && counter < 4) {
+  const hoverRef = (ref: React.RefObject<HTMLButtonElement>) => {
+    if (ref.current) {
       ref.current.addEventListener("mouseover", () => {
-        if (ref.current) { // Adding this check to ensure ref.current is not null inside the event listener
+        if (ref.current && buttonMoveCount.current < 3) {
           const randomX = Math.floor(Math.random() * (window.innerWidth - ref.current.offsetWidth));
           const randomY = Math.floor(Math.random() * (window.innerHeight - ref.current.offsetHeight));
 
           ref.current.style.position = 'absolute';
           ref.current.style.left = `${randomX}px`;
           ref.current.style.top = `${randomY}px`;
+
+          buttonMoveCount.current += 1; // Increment the move count
         }
       });
-      counter++;
     }
   };
-
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -80,7 +77,7 @@ const App: React.FC = () => {
       ) : (
         <form onSubmit={handleSubmit}>
           <h1>Login</h1>
-          <div id="name" ref={nameRef}>
+          <div>
             <label htmlFor="name">Name:</label>
             <input
               type="text"
@@ -91,7 +88,7 @@ const App: React.FC = () => {
               required
             />
           </div>
-          <div id="password" ref={passwordRef}>
+          <div>
             <label htmlFor="password">Password:</label>
             <input
               type="password"
@@ -101,7 +98,7 @@ const App: React.FC = () => {
               required
             />
           </div>
-          <div id="captcha" ref={captchaRef}>
+          <div>
             <label htmlFor="captcha">{captchaQuestion}</label>
             <input
               type="text"
@@ -110,15 +107,6 @@ const App: React.FC = () => {
               onChange={(e) => setCaptcha(e.target.value)}
               required
             />
-          </div>
-          <div>
-            <a
-                href="https://www.youtube.com/watch?v=oHg5SJYRHA0&list=PL8dZXjD8meS_WZzEKSReIBPLzKaW3HboH&index=2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Forgot Password?
-            </a>
           </div>
           <button type="submit" ref={buttonRef}>Enter</button>
         </form>
