@@ -32,9 +32,9 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    hoverRef(nameRef);
+    /*hoverRef(nameRef);
     hoverRef(emailRef);
-    hoverRef(passwordRef);
+    hoverRef(passwordRef);*/
     hoverRef(buttonRef);
   }, []);
 
