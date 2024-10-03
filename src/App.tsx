@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { Link } from 'react-router-dom';
 
 const App: React.FC = () => {
   const [name, setName] = useState('');
@@ -39,6 +40,15 @@ const App: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+          </div>
+          <div>
+            <a
+                href="https://www.youtube.com/watch?v=oHg5SJYRHA0&list=PL8dZXjD8meS_WZzEKSReIBPLzKaW3HboH&index=2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Forgot Password?
+            </a>
           </div>
           <button type="submit">Enter</button>
         </form>
